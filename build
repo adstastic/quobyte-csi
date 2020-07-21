@@ -20,7 +20,7 @@ else
   if [[ "${build_success}" -eq 0 && ! -z "$1" ]]; then
    echo 'Building docker image'
    IMAGE=$1
-   sudo docker build -t quobyte-csi -f Dockerfile .
+   sudo docker buildx build --platform linux/arm/v7 -t quobyte-csi -f Dockerfile .
    sudo docker run -it quobyte-csi
    CSI_RUN_ID="$(sudo docker ps -l | grep 'quobyte-csi' | awk '{print $1}')"
    echo "Pushing $CSI_RUN_ID to $1"
